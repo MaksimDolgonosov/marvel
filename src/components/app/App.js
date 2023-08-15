@@ -4,22 +4,32 @@ import CharList from "../charList/CharList";
 
 import CharInfo from "../charInfo/CharInfo";
 
+import MarvelService from "../../services/MarvelService";
+
 import decoration from '../../resources/img/vision.png';
+
+
+const marvelServise = new MarvelService();
+marvelServise.getAllCharacters().then(res => res.data.results.forEach(element => {
+    console.log(element.name);
+}));
 
 const App = () => {
     return (
         <div className="app">
-            <AppHeader/>
+            <AppHeader />
             <main>
-                <RandomChar/>
+                <RandomChar />
                 <div className="char__content">
-                    <CharList/>
-                    <CharInfo/>
+                    <CharList />
+                    <CharInfo />
                 </div>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
+                <img className="bg-decoration" src={decoration} alt="vision" />
             </main>
         </div>
     )
 }
+
+
 
 export default App;
