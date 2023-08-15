@@ -4,15 +4,12 @@ import CharList from "../charList/CharList";
 
 import CharInfo from "../charInfo/CharInfo";
 
-import MarvelService from "../../services/MarvelService";
+
 
 import decoration from '../../resources/img/vision.png';
 
 
-const marvelServise = new MarvelService();
-marvelServise.getAllCharacters().then(res => res.data.results.forEach(element => {
-    console.log(element.name);
-}));
+
 
 const App = () => {
     return (
