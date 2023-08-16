@@ -26,11 +26,18 @@ class MarvelService {
     _transformCharacter = (char) => {
         return {
             name: char.name,
-            description: char.description,
+            description: this.correctDescription(char.description),
             thumbnail: char.thumbnail.path + "." + char.thumbnail.extension,
             homepage: char.urls[0].url,
             viki: char.urls[1].url
         }
+    }
+
+    correctDescription = (descr) => {
+        if (descr) {
+            return descr.length > 175 ? descr.substring(0, 175) + "..." : descr;
+        }
+        return "No description for this character"
     }
 
 }
