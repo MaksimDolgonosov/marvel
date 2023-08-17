@@ -9,6 +9,7 @@ import MarvelService from "../../services/MarvelService";
 class RandomChar extends Component {
     constructor(props) {
         super(props)
+        console.log("constructor");
         this.state = {
             char: {},
             loading: true,
@@ -19,6 +20,7 @@ class RandomChar extends Component {
     marvelServise = new MarvelService();
 
     onCharLoaded = (char) => {
+        console.log("load new character");
         this.setState({
             char,
             loading: false
@@ -42,6 +44,7 @@ class RandomChar extends Component {
 
 
     render() {
+        console.log("render");
         const { char: { name, description, thumbnail, homepage, viki }, loading, error } = this.state
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null;
