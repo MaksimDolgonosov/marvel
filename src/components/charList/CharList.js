@@ -8,15 +8,19 @@ class CharList extends Component {
     state = {
         char: [],
         loading: true,
-        error: false
+        error: false,
+        newItemLoading: false
     }
     marvelService = new MarvelService();
 
-    onCharLoaded = (char) => {
-        this.setState({
-            char,
-            loading: false
-        });
+    onCharLoaded = (newChar) => {
+        this.setState(({ char }) => (
+            {
+                char: [...char, ...newChar],
+                loading: false,
+                newItemLoading: false
+            }
+        ));
 
     }
 
@@ -27,14 +31,21 @@ class CharList extends Component {
         })
     }
 
-    getAllCharacters = () => {
-        this.marvelService.getAllCharacters()
+    getAllCharacters = (offset) => {
+        this.marvelService.getAllCharacters(offset)
             .then(this.onCharLoaded)
             .catch(this.onErrorChange)
     }
 
     componentDidMount = () => {
         this.getAllCharacters();
+    }
+
+    onRequest = (offset) => {
+        this.getAllCharacters(offset);
+        this.setState({
+            newItemLoading: true
+        })
     }
 
 
@@ -45,7 +56,7 @@ class CharList extends Component {
         const allCharacters = this.state.char.map(item => {
             const styleObjFit = item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
             return (
-                <li className="char__item" key={item.id} onClick={() =>  this.props.onCharSelected(item.id)} >
+                <li className="char__item" key={item.id} onClick={() => this.props.onCharSelected(item.id)} >
                     <img src={item.thumbnail} style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} alt="character" />
                     <div className="char__name">{item.name}</div>
                 </li >

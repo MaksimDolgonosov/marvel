@@ -19,6 +19,7 @@ class CharInfo extends Component {
             char,
             loading: false
         })
+        
     }
     onCharLoading = () => {
         this.setState({
@@ -92,7 +93,7 @@ const View = ({ char }) => {
     })
     const emptyList = comicsList.length === 0 ? "No comics with this character" : null;
     const longList = comicsList.length > 10 ? comicsList.slice(0, 10) : null;
-    const viewList = !emptyList&& !longList? comicsList: null;
+    const viewList = !emptyList && !longList ? comicsList : null;
     return (
         <>
             <div className="char__basics">
