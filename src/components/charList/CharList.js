@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
 import MarvelService from '../../services/MarvelService'
@@ -9,16 +10,25 @@ class CharList extends Component {
         char: [],
         loading: true,
         error: false,
-        newItemLoading: false
+        newItemLoading: false,
+        offset: 1551,
+        charEnded: false
     }
     marvelService = new MarvelService();
 
     onCharLoaded = (newChar) => {
-        this.setState(({ char }) => (
+        let ended = false;
+        if (newChar.length < 9) {
+            ended = true;
+        }
+
+        this.setState(({ offset, char, charEnded }) => (
             {
                 char: [...char, ...newChar],
                 loading: false,
-                newItemLoading: false
+                newItemLoading: false,
+                offset: offset + 9,
+                charEnded: ended
             }
         ));
 
@@ -39,20 +49,36 @@ class CharList extends Component {
 
     componentDidMount = () => {
         this.getAllCharacters();
+        window.addEventListener("scroll", this.onScroll);
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener("scroll", this.onScroll);
+    }
+
+    onScroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            if (!this.state.charEnded) {
+                document.querySelector(".button__long").click();
+            }
+        }
+
     }
 
     onRequest = (offset) => {
-        this.getAllCharacters(offset);
         this.setState({
             newItemLoading: true
         })
+        this.getAllCharacters(offset);
+
     }
 
 
     render() {
-        const { loading, error } = this.state;
+        const { loading, error, newItemLoading, offset, charEnded } = this.state;
         let errorMessage = error ? <ErrorMessage /> : null;
         let spinner = loading ? <Spinner /> : null;
+        let newItems = newItemLoading ? <Spinner /> : null;
         const allCharacters = this.state.char.map(item => {
             const styleObjFit = item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
             return (
@@ -69,45 +95,12 @@ class CharList extends Component {
                 {errorMessage}
                 <ul className="char__grid">
                     {allCharacters}
-
-                    {/* <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item char__item_selected">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li> */}
                 </ul>
-                <button className="button button__main button__long">
+                {newItems}
+                <button className="button button__main button__long"
+                    onClick={() => this.onRequest(offset)}
+                    disabled={newItemLoading}
+                    style={{ display: charEnded ? "none" : "block" }}>
                     <div className="inner">load more</div>
                 </button>
             </div>
@@ -115,5 +108,8 @@ class CharList extends Component {
     }
 
 }
+CharList.propTypes = {
+    onCharSelected: PropTypes.func
+  };
 
 export default CharList;
