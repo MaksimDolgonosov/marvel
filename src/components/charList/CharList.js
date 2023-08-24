@@ -1,10 +1,11 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
 import MarvelService from '../../services/MarvelService'
 import ErrorMessage from '../error/ErrorMessage';
 class CharList extends Component {
+    myRef = React.createRef();
 
     state = {
         char: [],
@@ -12,7 +13,8 @@ class CharList extends Component {
         error: false,
         newItemLoading: false,
         offset: 1551,
-        charEnded: false
+        charEnded: false,
+        checkedId: null
     }
     marvelService = new MarvelService();
 
@@ -72,17 +74,23 @@ class CharList extends Component {
         this.getAllCharacters(offset);
 
     }
-
+    onCheckChar = (itemId) => {
+        this.props.onCharSelected(itemId)
+        this.setState({
+            checkedId: itemId
+        })
+    }
 
     render() {
-        const { loading, error, newItemLoading, offset, charEnded } = this.state;
+        const { loading, error, newItemLoading, offset, charEnded, checkedId } = this.state;
         let errorMessage = error ? <ErrorMessage /> : null;
         let spinner = loading ? <Spinner /> : null;
         let newItems = newItemLoading ? <Spinner /> : null;
+    
         const allCharacters = this.state.char.map(item => {
             const styleObjFit = item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
             return (
-                <li className="char__item" key={item.id} onClick={() => this.props.onCharSelected(item.id)} >
+                <li className={"char__item" + (item.id === checkedId ? " char__item_selected" : "")} key={item.id} onClick={() => this.onCheckChar(item.id)} ref={this.myRef} tabIndex={0}>
                     <img src={item.thumbnail} style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} alt="character" />
                     <div className="char__name">{item.name}</div>
                 </li >
@@ -110,6 +118,6 @@ class CharList extends Component {
 }
 CharList.propTypes = {
     onCharSelected: PropTypes.func
-  };
+};
 
 export default CharList;
