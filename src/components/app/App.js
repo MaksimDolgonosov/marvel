@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
@@ -10,21 +10,15 @@ import decoration from '../../resources/img/vision.png';
 
 
 
+const App = () => {
+    const [charId, setCharId] = useState(null);
 
-class App extends Component {
-    state = {
-        charId: null
+
+
+    const onCharSelected = (id) => {
+        setCharId(id);
     }
 
-    onCharSelected = (id) => {
-        this.setState({
-            charId: id
-        })
-    }
-
-
-
-    render() {
         return (
             <div className="app">
                 <AppHeader />
@@ -34,10 +28,10 @@ class App extends Component {
                     </ErrorBoundary>
                     <div className="char__content">
                         <ErrorBoundary>
-                            <CharList onCharSelected={this.onCharSelected} />
+                            <CharList onCharSelected={onCharSelected} />
                         </ErrorBoundary>
                         <ErrorBoundary>
-                            <CharInfo charId={this.state.charId} />
+                            <CharInfo charId={charId} />
                         </ErrorBoundary>
 
                     </div>
@@ -45,7 +39,7 @@ class App extends Component {
                 </main>
             </div>
         )
-    }
+    
 
 }
 
