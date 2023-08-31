@@ -16,21 +16,16 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(1551);
     const [charEnded, setCharEnded] = useState(false);
     const [checkedId, setcheckedId] = useState(null);
+    const [pageEnded, setPageEnded] = useState(false);
 
     const marvelService = new MarvelService();
 
     function onCharLoaded(newChar) {
-        let ended = false;
-        console.log(newChar.length)
-        if (newChar.length < 9) {
-            ended = true;
-        }
-
         setChar(char => [...char, ...newChar]);
         setLoading(false);
         setNewItemLoading(false);
         setOffset(offset => offset + 9);
-        setCharEnded(charEnded => ended);
+        setCharEnded(newChar.length < 9 ? true : false);
         // this.setState(({ offset, char, charEnded }) => (
         //     {
         //         char: [...char, ...newChar],
@@ -63,15 +58,22 @@ const CharList = (props) => {
         // eslint-disable-next-line
     }, [])
 
-
+    useEffect(() => {
+        if (pageEnded && !charEnded) {
+            document.querySelector(".button__long").click();
+            setPageEnded(false);
+        }
+        
+    },[pageEnded, charEnded])
 
     function onScroll() {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            console.log(charEnded)
-            document.querySelector(".button__long").click();
-            if (charEnded) {
-                document.querySelector(".button__long").click();
-            }
+            setPageEnded(true);
+            // console.log(charEnded)
+            // document.querySelector(".button__long").click();
+            // if (charEnded) {
+            //     document.querySelector(".button__long").click();
+            // }
         }
 
     }
