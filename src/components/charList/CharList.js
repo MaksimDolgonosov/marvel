@@ -4,7 +4,7 @@ import './charList.scss';
 import Spinner from '../spinner/Spinner';
 import MarvelService from '../../services/MarvelService'
 import ErrorMessage from '../error/ErrorMessage';
-
+import useMarvelService from '../../services/MarvelService'
 
 const CharList = (props) => {
     const myRef = React.createRef();

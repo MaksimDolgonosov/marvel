@@ -3,30 +3,29 @@ import './randomChar.scss';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
 import mjolnir from '../../resources/img/mjolnir.png';
-import MarvelService from "../../services/MarvelService";
+//import MarvelService from "../../services/MarvelService";
+import useMarvelService from '../../services/MarvelService';
 
 
 const RandomChar = (props) => {
     const [char, setChar] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState(false);
 
     // state = {
     //     char: {},
     //     loading: true,
     //     error: false
     // }
-    const marvelServise = new MarvelService();
-
+    const { loading, error, clearError, getCharacter } = useMarvelService();
 
     const onTryIt = () => {
-        setLoading(true);
+
         updateCharacter();
     }
 
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false);
 
     }
 
@@ -46,17 +45,14 @@ const RandomChar = (props) => {
     // }
 
 
-    const onErrorChange = () => {
-        setLoading(false);
-        setError(true);
-    }
+
 
     const updateCharacter = () => {
         const id = Math.round(Math.random() * (1011400 - 1011001) + 1011001);
         //this.marvelServise.getAllCharacters().then(res => console.log(res));
-        marvelServise.getCharacter(id)
+        getCharacter(id)
             .then(onCharLoaded)
-            .catch(onErrorChange)
+
     }
 
     // const { name, description, thumbnail, homepage, viki } = char;
