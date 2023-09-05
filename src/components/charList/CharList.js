@@ -10,15 +10,17 @@ const CharList = (props) => {
     const myRef = React.createRef();
 
     const [char, setChar] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState(false);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(1551);
     const [charEnded, setCharEnded] = useState(false);
     const [checkedId, setcheckedId] = useState(null);
     const [pageEnded, setPageEnded] = useState(false);
 
-    const marvelService = new MarvelService();
+
+    const { loading, error, clearError, getAllCharacters } = useMarvelService();
+    //const marvelService = new MarvelService();
 
     function onCharLoaded(newChar) {
         setChar(char => [...char, ...newChar]);
@@ -42,11 +44,11 @@ const CharList = (props) => {
         setError(true);
         setLoading(false);
     }
-
+// Тут вопрос
     const getAllCharacters = (offset) => {
-        marvelService.getAllCharacters(offset)
+        getAllCharacters(offset)
             .then(onCharLoaded)
-            .catch(onErrorChange)
+
     }
 
     useEffect(() => {
@@ -63,8 +65,8 @@ const CharList = (props) => {
             document.querySelector(".button__long").click();
             setPageEnded(false);
         }
-        
-    },[pageEnded, charEnded])
+
+    }, [pageEnded, charEnded])
 
     function onScroll() {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {

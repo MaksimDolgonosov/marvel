@@ -20,14 +20,14 @@ const RandomChar = (props) => {
     const { loading, error, clearError, getCharacter } = useMarvelService();
 
     const onTryIt = () => {
-
+        clearError();
         updateCharacter();
     }
 
-    const onCharLoaded = (char) => {
-        setChar(char);
+    // const onCharLoaded = (char) => {
+    //     setChar(char);
 
-    }
+    // }
 
     // const componentDidMount = () => {
     //     // this.timerId = setInterval(this.updateCharacter, 3000);
@@ -51,7 +51,7 @@ const RandomChar = (props) => {
         const id = Math.round(Math.random() * (1011400 - 1011001) + 1011001);
         //this.marvelServise.getAllCharacters().then(res => console.log(res));
         getCharacter(id)
-            .then(onCharLoaded)
+            .then(char=>setChar(char))
 
     }
 
