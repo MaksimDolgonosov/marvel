@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
-import MarvelService from '../../services/MarvelService'
+//import MarvelService from '../../services/MarvelService'
 import ErrorMessage from '../error/ErrorMessage';
 import useMarvelService from '../../services/MarvelService'
 
@@ -13,7 +13,7 @@ const CharList = (props) => {
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(false);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(1551);
+    const [offset, setOffset] = useState(1351);
     const [charEnded, setCharEnded] = useState(false);
     const [checkedId, setcheckedId] = useState(null);
     const [pageEnded, setPageEnded] = useState(false);
@@ -23,8 +23,8 @@ const CharList = (props) => {
     //const marvelService = new MarvelService();
 
     function onCharLoaded(newChar) {
+        clearError();
         setChar(char => [...char, ...newChar]);
-        setLoading(false);
         setNewItemLoading(false);
         setOffset(offset => offset + 9);
         setCharEnded(newChar.length < 9 ? true : false);
@@ -40,23 +40,23 @@ const CharList = (props) => {
 
     }
 
-    const onErrorChange = () => {
-        setError(true);
-        setLoading(false);
-    }
+    // const onErrorChange = () => {
+    //     setError(true);
+    //     setLoading(false);
+    // }
 // Тут вопрос
-    const getAllCharacters = (offset) => {
+    const firstLoading = (offset) => {
         getAllCharacters(offset)
             .then(onCharLoaded)
 
     }
 
     useEffect(() => {
-        getAllCharacters();
-        window.addEventListener("scroll", onScroll);
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-        }
+        firstLoading();
+        // window.addEventListener("scroll", onScroll);
+        // return () => {
+        //     window.removeEventListener("scroll", onScroll);
+        // }
         // eslint-disable-next-line
     }, [])
 
@@ -68,21 +68,23 @@ const CharList = (props) => {
 
     }, [pageEnded, charEnded])
 
-    function onScroll() {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            setPageEnded(true);
-            // console.log(charEnded)
-            // document.querySelector(".button__long").click();
-            // if (charEnded) {
-            //     document.querySelector(".button__long").click();
-            // }
-        }
+    // function onScroll() {
+    //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    //         setPageEnded(true);
+    //         // console.log(charEnded)
+    //         // document.querySelector(".button__long").click();
+    //         // if (charEnded) {
+    //         //     document.querySelector(".button__long").click();
+    //         // }
+    //     }
 
-    }
+    // }
 
     const onRequest = (offset) => {
         setNewItemLoading(true);
-        getAllCharacters(offset);
+        getAllCharacters(offset)
+        .then(onCharLoaded);
+       // console.log(getAllCharacters(offset));
 
     }
     const onCheckChar = (itemId) => {

@@ -15,7 +15,9 @@ const useMarvelService=()=> {
 
    const getAllCharacters = async (offset=_offsetBase) => {
         const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`)
+       // console.log(res.data.results.map(item => _transformCharacter(item)));
         return res.data.results.map(item => _transformCharacter(item))
+
     }
 
    const getCharacter = async (id) => {
