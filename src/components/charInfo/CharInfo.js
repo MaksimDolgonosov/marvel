@@ -1,30 +1,28 @@
 import { useEffect, useState } from 'react';
 import './charInfo.scss';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import Skeleton from '../skeleton/Skeleton';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
 
 const CharInfo = (props) => {
     const [char, setChar] = useState(null);
-    const [loading, setLoading] = useState(null);
-    const [error, setError] = useState(null);
+   const {loading, error, clearError, getCharacter} = useMarvelService()
+    // const [loading, setLoading] = useState(null);
+    // const [error, setError] = useState(null);
     // state = {
     //     char: null,
     //     loading: false,
     //     error: false
     // }
-
-    const marvelServise = new MarvelService();
+   // const marvelServise = new MarvelService();
 
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false)
-
     }
     const onCharLoading = () => {
         setChar(null);
-        setLoading(true);
+
     }
     useEffect(() => {
         updateCharacter();
@@ -32,6 +30,7 @@ const CharInfo = (props) => {
     }, [])
 
     useEffect(() => {
+        clearError();
         updateCharacter();
         // eslint-disable-next-line
     }, [props.charId])
@@ -44,26 +43,20 @@ const CharInfo = (props) => {
 
 
 
-    const onErrorChange = () => {
-        setLoading(false);
-        setError(true);
-    }
+    // const onErrorChange = () => {
+    //     setLoading(false);
+    //     setError(true);
+    // }
 
     const updateCharacter = () => {
-
         if (props.charId) {
             onCharLoading();
-            marvelServise.getCharacter(props.charId)
+            getCharacter(props.charId)
                 .then(onCharLoaded)
-                .catch(onErrorChange)
+
         }
 
     }
-
-
-
-
-
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
