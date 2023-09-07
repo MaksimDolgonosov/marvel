@@ -44,7 +44,7 @@ const CharList = (props) => {
     //     setError(true);
     //     setLoading(false);
     // }
-// Тут вопрос
+   
     const firstLoading = (offset) => {
         getAllCharacters(offset)
             .then(onCharLoaded)
@@ -83,8 +83,8 @@ const CharList = (props) => {
     const onRequest = (offset) => {
         setNewItemLoading(true);
         getAllCharacters(offset)
-        .then(onCharLoaded);
-       // console.log(getAllCharacters(offset));
+            .then(onCharLoaded);
+        // console.log(getAllCharacters(offset));
 
     }
     const onCheckChar = (itemId) => {

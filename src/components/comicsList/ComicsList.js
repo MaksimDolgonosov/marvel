@@ -49,7 +49,7 @@ const ComicsList = () => {
             </li>
         )
     })
-
+    console.log("render");
     return (
         <div className="comics__list">
             <ul className="comics__grid">
