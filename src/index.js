@@ -10,8 +10,8 @@ import './style/style.scss';
 //   document.getElementById('root')
 // );
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('root'))
+.render(
 
   //<React.StrictMode>
     <App />

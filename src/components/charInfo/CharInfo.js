@@ -4,10 +4,11 @@ import useMarvelService from '../../services/MarvelService';
 import Skeleton from '../skeleton/Skeleton';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
+import { Link } from 'react-router-dom';
 
 const CharInfo = (props) => {
     const [char, setChar] = useState(null);
-   const {loading, error, clearError, getCharacter} = useMarvelService()
+    const { loading, error, clearError, getCharacter } = useMarvelService()
     // const [loading, setLoading] = useState(null);
     // const [error, setError] = useState(null);
     // state = {
@@ -15,7 +16,7 @@ const CharInfo = (props) => {
     //     loading: false,
     //     error: false
     // }
-   // const marvelServise = new MarvelService();
+    // const marvelServise = new MarvelService();
 
     const onCharLoaded = (char) => {
         setChar(char);
@@ -79,8 +80,9 @@ const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki, comics } = char;
     const styleObjFit = thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
     const comicsList = comics.map((item, i) => {
+        let str = item.resourceURI.slice(43)
         return (
-            <li className="char__comics-item" key={i}>{item.name}</li>
+            <Link to={`/comics/${str}`} className="char__comics-item" key={i}>{item.name}</Link>
         )
     })
     const emptyList = comicsList.length === 0 ? "No comics with this character" : null;
