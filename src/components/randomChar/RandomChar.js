@@ -5,7 +5,7 @@ import ErrorMessage from '../error/ErrorMessage';
 import mjolnir from '../../resources/img/mjolnir.png';
 //import MarvelService from "../../services/MarvelService";
 import useMarvelService from '../../services/MarvelService';
-
+import { ThreeDots } from 'react-loader-spinner'
 
 const RandomChar = (props) => {
     const [char, setChar] = useState({});
@@ -57,7 +57,16 @@ const RandomChar = (props) => {
 
     // const { name, description, thumbnail, homepage, viki } = char;
     const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
+    const spinner = loading ? <ThreeDots
+    height="80"
+    width="80"
+    radius="10"
+    color="#9F0013"
+    ariaLabel="three-dots-loading"
+    wrapperStyle={{margin: '0 auto', background: 'none', display: 'block'}}
+    wrapperClassName=""
+    visible={true}
+/> : null;
     const content = !(loading || error) ? <View name={char.name} description={char.description} thumbnail={char.thumbnail} homepage={char.homepage} viki={char.viki} /> : null;
     return (
         <div className="randomchar">

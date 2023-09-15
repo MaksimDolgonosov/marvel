@@ -6,6 +6,9 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
 import useMarvelService from '../../services/MarvelService'
 
+
+import { ThreeDots } from 'react-loader-spinner'
+
 const CharList = (props) => {
     const myRef = React.createRef();
 
@@ -44,7 +47,7 @@ const CharList = (props) => {
     //     setError(true);
     //     setLoading(false);
     // }
-   
+
     const firstLoading = (offset) => {
         getAllCharacters(offset)
             .then(onCharLoaded)
@@ -95,8 +98,8 @@ const CharList = (props) => {
 
 
     let errorMessage = error ? <ErrorMessage /> : null;
-    let spinner = loading ? <Spinner /> : null;
-    let newItems = newItemLoading ? <Spinner /> : null;
+    let spinner = loading ? <Spinner/> : null;
+    let newItems = newItemLoading ? <Spinner/> : null;
 
     const allCharacters = char.map(item => {
         const styleObjFit = item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
@@ -116,6 +119,7 @@ const CharList = (props) => {
                 {allCharacters}
             </ul>
             {newItems}
+
             <button className="button button__main button__long"
                 onClick={() => onRequest(offset)}
                 disabled={newItemLoading}
