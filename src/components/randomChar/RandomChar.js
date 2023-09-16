@@ -5,10 +5,13 @@ import ErrorMessage from '../error/ErrorMessage';
 import mjolnir from '../../resources/img/mjolnir.png';
 //import MarvelService from "../../services/MarvelService";
 import useMarvelService from '../../services/MarvelService';
-import { ThreeDots } from 'react-loader-spinner'
-
+//import { ThreeDots } from 'react-loader-spinner'
+//import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
+//import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 const RandomChar = (props) => {
     const [char, setChar] = useState({});
+
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(false);
 
@@ -51,28 +54,22 @@ const RandomChar = (props) => {
         const id = Math.round(Math.random() * (1011400 - 1011001) + 1011001);
         //this.marvelServise.getAllCharacters().then(res => console.log(res));
         getCharacter(id)
-            .then(char=>setChar(char))
+            .then(char => setChar(char))
 
     }
 
     // const { name, description, thumbnail, homepage, viki } = char;
     const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <ThreeDots
-    height="80"
-    width="80"
-    radius="10"
-    color="#9F0013"
-    ariaLabel="three-dots-loading"
-    wrapperStyle={{margin: '0 auto', background: 'none', display: 'block'}}
-    wrapperClassName=""
-    visible={true}
-/> : null;
-    const content = !(loading || error) ? <View name={char.name} description={char.description} thumbnail={char.thumbnail} homepage={char.homepage} viki={char.viki} /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error) ? <View name={char.name} description={char.description} thumbnail={char.thumbnail} homepage={char.homepage} viki={char.viki} id={char.id} /> : null;
     return (
         <div className="randomchar">
             {errorMessage}
             {spinner}
+
             {content}
+
+
             < div className="randomchar__static">
                 <p className="randomchar__title">
                     Random character for today!<br />
@@ -89,16 +86,23 @@ const RandomChar = (props) => {
             </div >
         </div >
     )
-
-
 }
 
 
 const View = (props) => {
-    const { name, description, thumbnail, homepage, viki } = props
+    const { name, description, thumbnail, homepage, viki } = props;
     const styleObjFit = thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
     return (
-        <div className="randomchar__block">
+
+
+
+
+        <motion.div
+            className="randomchar__block"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <img src={thumbnail} alt="Random character" style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} className="randomchar__img" />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
@@ -112,7 +116,8 @@ const View = (props) => {
                     </a>
                 </div>
             </div>
-        </div>
+        </motion.div>
+
     )
 }
 

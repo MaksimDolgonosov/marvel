@@ -5,9 +5,9 @@ import Spinner from '../spinner/Spinner';
 //import MarvelService from '../../services/MarvelService'
 import ErrorMessage from '../error/ErrorMessage';
 import useMarvelService from '../../services/MarvelService'
+import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
 
-
-import { ThreeDots } from 'react-loader-spinner'
+//import { ThreeDots } from 'react-loader-spinner'
 
 const CharList = (props) => {
     const myRef = React.createRef();
@@ -98,16 +98,18 @@ const CharList = (props) => {
 
 
     let errorMessage = error ? <ErrorMessage /> : null;
-    let spinner = loading ? <Spinner/> : null;
-    let newItems = newItemLoading ? <Spinner/> : null;
+    let spinner = loading ? <Spinner /> : null;
+    let newItems = newItemLoading ? <Spinner /> : null;
 
     const allCharacters = char.map(item => {
         const styleObjFit = item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
         return (
-            <li className={"char__item" + (item.id === checkedId ? " char__item_selected" : "")} key={item.id} onClick={() => onCheckChar(item.id)} ref={myRef} tabIndex={0}>
-                <img src={item.thumbnail} style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} alt="character" />
-                <div className="char__name">{item.name}</div>
-            </li >
+            <CSSTransition key={char.id} timeout={700} classNames="item">
+                <li className={"char__item" + (item.id === checkedId ? " char__item_selected" : "")} key={item.id} onClick={() => onCheckChar(item.id)} ref={myRef} tabIndex={0}>
+                    <img src={item.thumbnail} style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} alt="character" />
+                    <div className="char__name">{item.name}</div>
+                </li >
+            </CSSTransition>
         )
     })
 
@@ -115,9 +117,14 @@ const CharList = (props) => {
         <div className="char__list" >
             {spinner}
             {errorMessage}
-            <ul className="char__grid">
-                {allCharacters}
+
+            <ul >
+                <TransitionGroup className="char__grid">
+                    {allCharacters}
+
+                </TransitionGroup>
             </ul>
+
             {newItems}
 
             <button className="button button__main button__long"
