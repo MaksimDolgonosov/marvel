@@ -7,8 +7,8 @@ import mjolnir from '../../resources/img/mjolnir.png';
 import useMarvelService from '../../services/MarvelService';
 //import { ThreeDots } from 'react-loader-spinner'
 //import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
-//import { motion } from "framer-motion";
-import { motion } from "framer-motion"
+
+import { motion } from "framer-motion";
 const RandomChar = (props) => {
     const [char, setChar] = useState({});
 
@@ -101,8 +101,7 @@ const View = (props) => {
             className="randomchar__block"
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-        >
+            transition={{ duration: 0.5 }}>
             <img src={thumbnail} alt="Random character" style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} className="randomchar__img" />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>

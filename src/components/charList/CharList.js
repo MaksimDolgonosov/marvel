@@ -5,7 +5,7 @@ import Spinner from '../spinner/Spinner';
 //import MarvelService from '../../services/MarvelService'
 import ErrorMessage from '../error/ErrorMessage';
 import useMarvelService from '../../services/MarvelService'
-import { CSSTransition, SwitchTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 //import { ThreeDots } from 'react-loader-spinner'
 
