@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import useMarvelService from "../../services/MarvelService";
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
+import { Link } from 'react-router-dom';
+
 
 const CharSearchForm = () => {
     const [charName, setCharName] = useState("");
@@ -15,7 +17,7 @@ const CharSearchForm = () => {
         },
     });
 
-    const { loading, error, clearError, getCharacterByName } = useMarvelService();
+    const { loading, clearError, getCharacterByName } = useMarvelService();
 
     useEffect(() => {
         clearError();
@@ -28,8 +30,8 @@ const CharSearchForm = () => {
                 .then(res => setChar(res));
         }
     }
-
-
+    const resultTrue = char ? <ResultTrue name={char.name} decr={char.description} /> : null;
+    const resultFalse = (char === undefined) ? <ResultFalse /> : null;
 
     return (
         <form className="char__search-form" onSubmit={formik.handleSubmit}>
@@ -44,13 +46,35 @@ const CharSearchForm = () => {
                 <button disabled={loading} onClick={formik.handleSubmit} type="submit" className="button button__main"><div className="inner">find</div></button>
                 {formik.touched.character && formik.errors.character ? (<div className="char__search-requared">{formik.errors.character}</div>) : null}
             </div>
-            <div className="char__search-results">
-                <div className="char__search-message"></div>
-                <button className="button button__secondary"><div className="inner">to page</div></button>
-            </div>
+
+            {resultTrue}
+            {resultFalse}
         </form>
     )
 }
+
+
+const ResultTrue = (props) => {
+    return (
+        <div className="char__search-results">
+            <div className="char__search-message-true">There is! Visit {props.name} page?</div>
+            <Link to={`/character/${props.name}`}>
+                <button className="button button__secondary"><div className="inner">to page</div></button>
+            </Link>
+
+
+        </div>
+    )
+}
+
+const ResultFalse = () => {
+    return (
+        <div className="char__search-results">
+            <div className="char__search-message-false">The character was not found. Check the name and try again</div>
+        </div>
+    )
+}
+
 
 
 

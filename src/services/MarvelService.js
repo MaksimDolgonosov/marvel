@@ -46,7 +46,7 @@ const useMarvelService = () => {
         //const res = await request(`${_apiBase}characters/${id}?${_apiKey}`)
           //console.log(_transformCharacter(res.data.results[0]));
           if (res.data.results.length===0) {
-            return {};
+            return undefined;
           }
         return _transformCharacter(res.data.results[0])
 

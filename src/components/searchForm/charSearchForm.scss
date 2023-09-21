@@ -10,11 +10,13 @@
             z-index: 5;
             background-color: #fff;
         }
+
         &-title {
             font-weight: bold;
             font-size: 18px;
             line-height: 24px;
         }
+
         &-input {
             margin-top: 15px;
             margin-right: 24px;
@@ -26,17 +28,32 @@
             border: none;
 
         }
+
         &-wrapper {
             margin-bottom: 15px;
         }
+
         &-results {
-            display: none;
+            display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         &-requared {
             color: #e53e3e;
             margin-top: 8px;
+            font-weight: 700;
         }
+        &-message-true {
+            color: rgba(3, 113, 14, 1);
+            margin-top: 8px;
+            font-weight: 700;
+        }
+        &-message-false {
+            color: #e53e3e;
+            margin-top: 8px;
+            font-weight: 700;
+        }
+
     }
 }
