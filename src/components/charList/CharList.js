@@ -104,7 +104,7 @@ const CharList = (props) => {
     const allCharacters = char.map(item => {
         const styleObjFit = item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? true : false;
         return (
-            <CSSTransition key={char.id} timeout={700} classNames="item">
+            <CSSTransition key={item.id} timeout={700} classNames="item">
                 <li className={"char__item" + (item.id === checkedId ? " char__item_selected" : "")} key={item.id} onClick={() => onCheckChar(item.id)} ref={myRef} tabIndex={0}>
                     <img src={item.thumbnail} style={styleObjFit ? { objectFit: "contain" } : { objectFit: "cover" }} alt="character" />
                     <div className="char__name">{item.name}</div>

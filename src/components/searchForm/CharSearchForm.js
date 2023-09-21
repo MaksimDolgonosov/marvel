@@ -22,6 +22,7 @@ const CharSearchForm = () => {
     useEffect(() => {
         clearError();
         getCharacter(charName);
+        // eslint-disable-next-line
     }, [charName])
 
     const getCharacter = (name) => {

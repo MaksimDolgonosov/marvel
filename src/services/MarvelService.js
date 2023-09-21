@@ -44,18 +44,18 @@ const useMarvelService = () => {
     const getCharacterByName = async (name) => {
         const res = await request(`${_apiBase}characters?name=${name}&apikey=ce42db7a3f1a388b8377a41da89fb98d`)
         //const res = await request(`${_apiBase}characters/${id}?${_apiKey}`)
-          //console.log(_transformCharacter(res.data.results[0]));
-          if (res.data.results.length===0) {
+        //console.log(_transformCharacter(res.data.results[0]));
+        if (res.data.results.length === 0) {
             return undefined;
-          }
-        return _transformCharacter(res.data.results[0])
+        }
+        return _transformCharacter(res.data.results[0], false)
 
     }
 
-    const _transformCharacter = (char) => {
+    const _transformCharacter = (char, isCorrection = true) => {
         return {
             name: char.name,
-            description: correctDescription(char.description),
+            description: isCorrection? correctDescription(char.description): char.description,
             thumbnail: char.thumbnail.path + "." + char.thumbnail.extension,
             homepage: char.urls[0].url,
             viki: char.urls[1].url,
