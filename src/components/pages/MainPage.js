@@ -4,7 +4,7 @@ import CharInfo from "../charInfo/CharInfo";
 import CharSearchForm from "../searchForm/CharSearchForm";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import { useState } from "react";
-
+import SearchMain from "../searchMain/SearchMain";
 import decoration from '../../resources/img/vision.png';
 
 
@@ -18,6 +18,7 @@ const MainPage = () => {
             <ErrorBoundary>
                 <RandomChar />
             </ErrorBoundary>
+            <SearchMain/>
             <div className="char__content">
                 <ErrorBoundary>
                     <CharList onCharSelected={onCharSelected} />
