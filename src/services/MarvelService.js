@@ -42,7 +42,7 @@ const useMarvelService = () => {
 
     }
     const getCharacterByName = async (name) => {
-        const res = await request(`${_apiBase}characters?name=${name}&apikey=ce42db7a3f1a388b8377a41da89fb98d`)
+        const res = await request(`${_apiBase}characters?name=${name}&${_apiKey}`)
         //const res = await request(`${_apiBase}characters/${id}?${_apiKey}`)
         //console.log(_transformCharacter(res.data.results[0]));
         if (res.data.results.length === 0) {
@@ -50,6 +50,19 @@ const useMarvelService = () => {
         }
         return _transformCharacter(res.data.results[0], false)
 
+    }
+    const getCharacterByNameStartWidth = async (name) => {
+        if (name) {
+            const res = await request(`${_apiBase}characters?nameStartsWith=${name}&orderBy=name&${_apiKey}`);
+            return res.data.results.map(item => _transformCharacter(item));
+        }
+        return [];
+        //const res = await request(`${_apiBase}characters/${id}?${_apiKey}`)
+        //console.log(_transformCharacter(res.data.results[0]));
+        // if (res.data.results.length === 0) {
+        //     
+        // }
+        
     }
 
     const _transformCharacter = (char, isCorrection = true) => {
@@ -93,7 +106,7 @@ const useMarvelService = () => {
 
 
 
-    return { loading, error, clearError, getAllCharacters, getCharacter, getAllComics, getComic, getCharacterByName }
+    return { loading, error, clearError, getAllCharacters, getCharacter, getAllComics, getComic, getCharacterByName, getCharacterByNameStartWidth }
 }
 
 export default useMarvelService;
