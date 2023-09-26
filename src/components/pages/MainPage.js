@@ -6,7 +6,7 @@ import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import { useState } from "react";
 import SearchMain from "../searchMain/SearchMain";
 import decoration from '../../resources/img/vision.png';
-
+import { Helmet } from "react-helmet";
 
 const MainPage = () => {
     const [charId, setCharId] = useState(null);
@@ -15,22 +15,29 @@ const MainPage = () => {
     }
     return (
         <>
+            <Helmet>
+                <meta
+                    name="description"
+                    content="Marvel information portal"
+                />
+                <title>Marvel information portal</title>
+            </Helmet>
             <ErrorBoundary>
                 <RandomChar />
             </ErrorBoundary>
-            <SearchMain/>
+            <SearchMain />
             <div className="char__content">
                 <ErrorBoundary>
                     <CharList onCharSelected={onCharSelected} />
                 </ErrorBoundary>
-               <div>
-               <ErrorBoundary>
-                    <CharInfo charId={charId} />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                    <CharSearchForm />
-                </ErrorBoundary>
-               </div>
+                <div>
+                    <ErrorBoundary>
+                        <CharInfo charId={charId} />
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <CharSearchForm />
+                    </ErrorBoundary>
+                </div>
 
             </div>
 

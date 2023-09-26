@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const SearchMain = () => {
     const [char, setChar] = useState("");
-    const [charInput, setCharInput] = useState("");
+     const [charInput, setCharInput] = useState("");
 
     const { loading, clearError, getCharacterByNameStartWidth } = useMarvelService();
 

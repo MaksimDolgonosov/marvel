@@ -5,6 +5,7 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
 import AppBanner from '../appBanner/AppBanner';
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const SingleCharPage = () => {
     const { charName } = useParams();
@@ -27,6 +28,13 @@ const SingleCharPage = () => {
     const spinner = loading ? <Spinner /> : null;
     return (
         <>
+        <Helmet>
+        <meta
+                    name="description"
+                    content="Name of character"
+                />
+                <title>{char.name}</title>
+        </Helmet>
             <AppBanner />
             {spinner}
             {errorMessage}
