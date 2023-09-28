@@ -6,7 +6,6 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
 import useMarvelService from '../../services/MarvelService'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-
 //import { ThreeDots } from 'react-loader-spinner'
 
 const CharList = (props) => {
@@ -120,6 +119,7 @@ const CharList = (props) => {
 
             <ul >
                 <TransitionGroup className="char__grid">
+                    
                     {allCharacters}
 
                 </TransitionGroup>

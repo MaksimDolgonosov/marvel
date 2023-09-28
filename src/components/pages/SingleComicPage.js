@@ -5,13 +5,11 @@ import { useEffect, useState } from 'react';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../error/ErrorMessage';
-
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { useParams, Link } from "react-router-dom";
 
 const SingleComicPage = () => {
     const { comicId } = useParams();
-    let navigate = useNavigate();
-    console.log(navigate);
     const [comic, setComic] = useState(null);
     const { loading, error, clearError, getComic } = useMarvelService()
 
@@ -47,12 +45,19 @@ const SingleComicPage = () => {
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
     const content = comic ? <View char={comic} /> : null;
-
     return (
         <>
+
             {spinner}
             {errorMessage}
             <div className="single-comic">
+                <Helmet>
+                    <meta
+                        name="description"
+                        content="Marvel comic information"
+                    />
+                    <title>Comic</title>
+                </Helmet>
                 {content}
                 <Link to="/comics/" className="single-comic__back">Back to all</Link>
             </div>
